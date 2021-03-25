@@ -9,11 +9,11 @@
             android:icon="@drawable/icon_news"
             android:title="Головна" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_list"
             android:icon="@drawable/icon_list"
             android:title="Список динозаврів" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_info"
             android:icon="@drawable/icon_info"
             android:title="Інформація" />
     </group>

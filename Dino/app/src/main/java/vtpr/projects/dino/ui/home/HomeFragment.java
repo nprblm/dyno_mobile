@@ -20,14 +20,15 @@ import vtpr.projects.dino.R;
 import vtpr.projects.dino.ui.info.InfoViewModel;
 
 public class HomeFragment extends Fragment {
+
     private ListView list;
     private String[] dino_list;
-    private ArrayAdapter <String> adapter;
+    private ArrayAdapter<String> adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container,false);
-        list = (ListView) view.findViewById(R.id.listview);
+        list = (ListView) view.findViewById(R.id.listview_home);
         dino_list = getResources().getStringArray(R.array.dino);
         adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,dino_list);
         list.setAdapter(adapter);
