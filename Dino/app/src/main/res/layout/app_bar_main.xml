@@ -19,8 +19,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|start"
         android:layout_margin="12dp"
+        android:contentDescription="TODO"
         android:outlineAmbientShadowColor="@color/black"
         android:outlineSpotShadowColor="@color/black"
+        android:visibility="visible"
+        app:backgroundTint="@color/purple_200"
         app:srcCompat="@drawable/icon_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
