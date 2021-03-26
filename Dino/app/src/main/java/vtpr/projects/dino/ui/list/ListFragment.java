@@ -44,23 +44,23 @@ public class ListFragment extends Fragment {
         return view;
     }
     private void prepareMovieData() {
-        Dino dino = new Dino("Барапазавр", 1, 1);
+        Dino dino = new Dino("Барапазавр","300", "Юрський", 1, 1);
         dinoList.add(dino);
-         dino = new Dino("Омейзавр", 2, 1);
+         dino = new Dino("Омейзавр","3000", "Юрський", 2, 2);
         dinoList.add(dino);
-         dino = new Dino("Брахіозавр", 3, 1);
+         dino = new Dino("Брахіозавр","40", "Крейдовий", 3, 3);
         dinoList.add(dino);
-         dino = new Dino("Камаразавр", 2, 1);
+         dino = new Dino("Камаразавр","34700", "Юрський", 2, 4);
         dinoList.add(dino);
-         dino = new Dino("Апатозавр", 1, 1);
+         dino = new Dino("Апатозавр","30", "Крейдовий", 1, 5);
         dinoList.add(dino);
-        dino = new Dino("Барозавр", 2, 1);
+        dino = new Dino("Барозавр","540", "Юрський", 2, 6);
         dinoList.add(dino);
-        dino = new Dino("Дикреозавр", 2, 1);
+        dino = new Dino("Дикреозавр","700", "Крейдовий", 2, 7);
         dinoList.add(dino);
-        dino = new Dino("Диплодок", 3, 1);
+        dino = new Dino("Диплодок","8300", "Крейдовий", 3, 8);
         dinoList.add(dino);
-        dino = new Dino("Маменчізавр", 1, 1);
+        dino = new Dino("Маменчізавр","44300", "Юрський", 1, 4);
         dinoList.add(dino);
         dAdapter.notifyDataSetChanged();
     }

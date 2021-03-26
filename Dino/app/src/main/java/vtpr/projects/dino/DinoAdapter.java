@@ -17,7 +17,7 @@ public class DinoAdapter extends RecyclerView.Adapter<DinoAdapter.MyViewHolder> 
     private List<Dino> dinoList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
+        public TextView name, weight, period;
         ImageView eat, img;
 
         public MyViewHolder(View view) {
@@ -25,6 +25,8 @@ public class DinoAdapter extends RecyclerView.Adapter<DinoAdapter.MyViewHolder> 
             name = (TextView) view.findViewById(R.id.name);
             eat = (ImageView) view.findViewById(R.id.eat);
             img = (ImageView) view.findViewById(R.id.img);
+            weight = (TextView) view.findViewById(R.id.weight);
+            period = (TextView) view.findViewById(R.id.period);
         }
     }
 
@@ -45,17 +47,46 @@ public class DinoAdapter extends RecyclerView.Adapter<DinoAdapter.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Dino dino = dinoList.get(position);
         holder.name.setText(dino.getName());
-        if (dino.getEat()==1)
-        {
-            holder.eat.setImageResource(R.drawable.meat);
+        holder.weight.setText("Вага: "+dino.getWeight()+" кг");
+        holder.period.setText("Період: "+dino.getPeriod());
+        switch (dino.getEat()) {
+            case (1):
+                holder.eat.setImageResource(R.drawable.meat);
+                break;
+            case (2):
+                holder.eat.setImageResource(R.drawable.vegan);
+                break;
+            case (3):
+                holder.eat.setImageResource(R.drawable.all);
+                break;
+
         }
-        else if (dino.getEat()==2)
+        switch(dino.getImg())
         {
-            holder.eat.setImageResource(R.drawable.vegan);
-        }
-        else if (dino.getEat()==3)
-        {
-            holder.eat.setImageResource(R.drawable.all);
+            case(1):
+                holder.img.setImageResource(R.drawable.dino1);
+                break;
+            case(2):
+                holder.img.setImageResource(R.drawable.dino2);
+                break;
+            case(3):
+                holder.img.setImageResource(R.drawable.dino3);
+                break;
+            case(4):
+                holder.img.setImageResource(R.drawable.dino4);
+                break;
+            case(5):
+                holder.img.setImageResource(R.drawable.dino5);
+                break;
+            case(6):
+                holder.img.setImageResource(R.drawable.dino6);
+                break;
+            case(7):
+                holder.img.setImageResource(R.drawable.dino7);
+                break;
+            case(8):
+                holder.img.setImageResource(R.drawable.dino8);
+                break;
         }
     }
 
