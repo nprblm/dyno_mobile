@@ -102,91 +102,19 @@ public class ListFragment extends Fragment {
 
         int i=0;
         while(i<50) {
-            Dino dino = new Dino(getName(i), getWeight(i), getPeriod(i), getEat(i), getImg(i));
-            dinoList.add(dino);
+            dinoList.add(getInfo(i));
             i++;
         }
         dAdapter.notifyDataSetChanged();
     }
 
-    private String getName(int id)
+    private Dino getInfo(int id)
     {
         String name ="";
-        Cursor cursor = mDb.rawQuery("SELECT * FROM dino ORDER BY dino_name", null);
-        cursor.moveToFirst();
-        int i=0;
-        while (i<id)
-        {
-            cursor.moveToNext();
-            i++;
-        }
-        name=cursor.getString(1);
-        cursor.close();
-        return name;
-    }
-
-    private String getWeight(int id)
-    {
         String weight ="";
-        Cursor cursor = mDb.rawQuery("SELECT * FROM dino ORDER BY dino_name", null);
-        cursor.moveToFirst();
-        int i=0;
-        while (i<id)
-        {
-            cursor.moveToNext();
-            i++;
-        }
-        weight=cursor.getString(2);
-        cursor.close();
-        return weight;
-    }
-
-    private String getPeriod(int id)
-    {
         String period ="";
-        Cursor cursor = mDb.rawQuery("SELECT * FROM dino ORDER BY dino_name", null);
-        cursor.moveToFirst();
-        int i=0;
-        while (i<id)
-        {
-            cursor.moveToNext();
-            i++;
-        }
-        period=cursor.getString(4);
-        cursor.close();
-        return period;
-    }
-
-    private int getEat(int id)
-    {
+        String dino_eat="";
         int eat = 1;
-        String dino_eat ="";
-        Cursor cursor = mDb.rawQuery("SELECT * FROM dino ORDER BY dino_name", null);
-        cursor.moveToFirst();
-        int i=0;
-        while (i<id)
-        {
-            cursor.moveToNext();
-            i++;
-        }
-        dino_eat = cursor.getString(3);
-       switch(dino_eat)
-       {
-           case("м'ясо"):
-               eat=1 ;
-           break;
-           case("вег"):
-               eat=2 ;
-           break;
-           case("все"):
-               eat=3 ;
-           break;
-       }
-        cursor.close();
-        return eat;
-    }
-    private int getImg(int id)
-    {
         int img = 1;
         Cursor cursor = mDb.rawQuery("SELECT * FROM dino ORDER BY dino_name", null);
         cursor.moveToFirst();
@@ -196,9 +124,26 @@ public class ListFragment extends Fragment {
             cursor.moveToNext();
             i++;
         }
+        name= cursor.getString(1);
+        weight=cursor.getString(2);
+        period=cursor.getString(4);
+        dino_eat = cursor.getString(3);
+        switch(dino_eat)
+        {
+            case("м'ясо"):
+                eat=1 ;
+                break;
+            case("вег"):
+                eat=2 ;
+                break;
+            case("все"):
+                eat=3 ;
+                break;
+        }
         img=cursor.getInt(5);
         cursor.close();
-        return img;
+        Dino dino = new Dino(name, weight, period, eat, img);
+        return dino;
     }
 
 }

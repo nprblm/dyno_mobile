@@ -17,7 +17,7 @@ import java.util.List;
 import vtpr.projects.dino.ui.list.Dino;
 import vtpr.projects.dino.ui.list.ListFragment;
 
-public class DinoAdapter extends RecyclerView.Adapter<DinoAdapter.MyViewHolder> {
+public class DinoAdapter extends RecyclerView.Adapter<DinoAdapter.MyViewHolder>  {
 
     private List<Dino> dinoList;
 
