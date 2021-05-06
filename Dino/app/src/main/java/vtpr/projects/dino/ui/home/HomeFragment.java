@@ -21,9 +21,6 @@ import vtpr.projects.dino.ui.info.InfoViewModel;
 
 public class HomeFragment extends Fragment {
 
-    private ListView list;
-    private String[] dino_list;
-    private ArrayAdapter<String> adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

@@ -4,6 +4,6 @@ import androidx.lifecycle.ViewModel;
 import android.widget.ArrayAdapter;
 
 
-public class FilterViewModel {
+public class FilterViewModel extends ViewModel {
 
 }

@@ -172,10 +172,10 @@ public class ListFragment extends Fragment {
         dino_eat = cursor.getString(3);
        switch(dino_eat)
        {
-           case("вег"):
+           case("м'ясо"):
                eat=1 ;
            break;
-           case("м'ясо"):
+           case("вег"):
                eat=2 ;
            break;
            case("все"):

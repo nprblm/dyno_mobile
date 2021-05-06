@@ -21,13 +21,10 @@ import vtpr.projects.dino.ui.info.InfoViewModel;
 
 public class FilterFragment extends Fragment {
 
-    private ListView list;
-    private String[] dino_list;
-    private ArrayAdapter<String> adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container,false);
+        View view = inflater.inflate(R.layout.fragment_filter, container,false);
         return view;
     }
 }
