@@ -3,14 +3,19 @@ package vtpr.projects.dino;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import vtpr.projects.dino.ui.list.Dino;
+import vtpr.projects.dino.ui.list.ListFragment;
 
 public class DinoAdapter extends RecyclerView.Adapter<DinoAdapter.MyViewHolder> {
 
@@ -31,8 +36,8 @@ public class DinoAdapter extends RecyclerView.Adapter<DinoAdapter.MyViewHolder> 
     }
 
 
-    public DinoAdapter(List<Dino> moviesList) {
-        this.dinoList = moviesList;
+    public DinoAdapter(List<Dino> dinoList) {
+        this.dinoList = dinoList;
     }
 
     @Override
@@ -94,4 +99,11 @@ public class DinoAdapter extends RecyclerView.Adapter<DinoAdapter.MyViewHolder> 
     public int getItemCount() {
         return dinoList.size();
     }
+
+    public void filterlist(ArrayList<Dino> filteredlist)
+    {
+        dinoList=filteredlist;
+        notifyDataSetChanged();
+    }
+
 }

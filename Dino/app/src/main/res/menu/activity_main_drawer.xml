@@ -10,8 +10,12 @@
             android:title="Головна" />
         <item
             android:id="@+id/nav_list"
-            android:icon="@drawable/icon_list"
-            android:title="Список динозаврів" />
+            android:icon="@drawable/ic_searchdino"
+            android:title="Пошук" />
+        <item
+            android:id="@+id/nav_filter"
+            android:icon="@drawable/ic_dinosaur"
+            android:title="Динозаври" />
         <item
             android:id="@+id/nav_info"
             android:icon="@drawable/icon_info"

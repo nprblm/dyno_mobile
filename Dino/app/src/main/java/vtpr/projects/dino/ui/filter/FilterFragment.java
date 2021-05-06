@@ -1,4 +1,4 @@
-package vtpr.projects.dino.ui.home;
+package vtpr.projects.dino.ui.filter;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import vtpr.projects.dino.R;
 import vtpr.projects.dino.ui.info.InfoViewModel;
 
-public class HomeFragment extends Fragment {
+public class FilterFragment extends Fragment {
 
     private ListView list;
     private String[] dino_list;
