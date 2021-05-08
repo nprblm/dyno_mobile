@@ -1,5 +1,6 @@
 package vtpr.projects.dino.ui.list;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,26 +10,16 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import vtpr.projects.dino.DatabaseHelper;
 import vtpr.projects.dino.DinoAdapter;
 import vtpr.projects.dino.R;
@@ -39,13 +30,16 @@ public class ListFragment extends Fragment {
     private List<Dino> dinoList = new ArrayList<>();
     private RecyclerView recyclerView;
     private DinoAdapter dAdapter;
-    private SearchView searchView;
+    private DinoAdapter.RecyclerViewClickListener listener;
+    private String text;
+    public EditText editText;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container,false);
+        setOnClickListener();
         recyclerView = (RecyclerView) view.findViewById(R.id.rec_view);
-        dAdapter = new DinoAdapter(dinoList);
+        dAdapter = new DinoAdapter(dinoList, listener);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -64,7 +58,7 @@ public class ListFragment extends Fragment {
             throw mSQLException;
         }
         prepareDinoData();
-        EditText editText = (EditText) view.findViewById(R.id.search);
+        editText = (EditText) view.findViewById(R.id.search);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -78,10 +72,25 @@ public class ListFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-            filter(s.toString());
+            text = s.toString();
+                filter(s.toString());
             }
         });
         return view;
+    }
+
+    private void setOnClickListener() {
+        listener = new DinoAdapter.RecyclerViewClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+
+                Intent intent = new Intent(getContext(), DinoInfoFragment.class);
+                List<Dino> list = dAdapter.getlist();
+                intent.putExtra("name", position);
+                intent.putExtra("text", list.get(position).getName());
+                startActivity(intent);
+            }
+        };
     }
 
     private void filter (String text)

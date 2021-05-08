@@ -3,25 +3,21 @@ package vtpr.projects.dino;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
 import vtpr.projects.dino.ui.list.Dino;
 import vtpr.projects.dino.ui.list.ListFragment;
 
 public class DinoAdapter extends RecyclerView.Adapter<DinoAdapter.MyViewHolder>  {
 
     private List<Dino> dinoList;
+    private RecyclerViewClickListener listener;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView name, weight, period;
         ImageView eat, img;
 
@@ -32,12 +28,19 @@ public class DinoAdapter extends RecyclerView.Adapter<DinoAdapter.MyViewHolder> 
             img = (ImageView) view.findViewById(R.id.img);
             weight = (TextView) view.findViewById(R.id.weight);
             period = (TextView) view.findViewById(R.id.period);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+                listener.onClick(view, getAdapterPosition());
         }
     }
 
 
-    public DinoAdapter(List<Dino> dinoList) {
+    public DinoAdapter(List<Dino> dinoList, RecyclerViewClickListener listener) {
         this.dinoList = dinoList;
+        this.listener = listener;
     }
 
     @Override
@@ -106,4 +109,13 @@ public class DinoAdapter extends RecyclerView.Adapter<DinoAdapter.MyViewHolder> 
         notifyDataSetChanged();
     }
 
+    public List<Dino> getlist()
+    {
+        return dinoList;
+    }
+
+
+    public interface RecyclerViewClickListener{
+        void onClick(View v, int position);
+    }
 }
