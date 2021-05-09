@@ -27,7 +27,7 @@ import vtpr.projects.dino.R;
 public class ListFragment extends Fragment {
     private DatabaseHelper mDBHelper;
     private SQLiteDatabase mDb;
-    private List<Dino> dinoList = new ArrayList<>();
+    private static List<Dino> dinoList = new ArrayList<>();
     private RecyclerView recyclerView;
     private DinoAdapter dAdapter;
     private DinoAdapter.RecyclerViewClickListener listener;
@@ -86,8 +86,13 @@ public class ListFragment extends Fragment {
 
                 Intent intent = new Intent(getContext(), DinoInfoFragment.class);
                 List<Dino> list = dAdapter.getlist();
-                intent.putExtra("name", position);
-                intent.putExtra("text", list.get(position).getName());
+                intent.putExtra("position", position);
+                intent.putExtra("name", list.get(position).getName());
+                intent.putExtra("weight", list.get(position).getWeight());
+                intent.putExtra("period", list.get(position).getPeriod());
+                intent.putExtra("eat", list.get(position).getEat());
+                intent.putExtra("img", list.get(position).getImg());
+                intent.putExtra("id", list.get(position).getId());
                 startActivity(intent);
             }
         };
@@ -125,6 +130,7 @@ public class ListFragment extends Fragment {
         String dino_eat="";
         int eat = 1;
         int img = 1;
+        int dino_id = 0;
         Cursor cursor = mDb.rawQuery("SELECT * FROM dino ORDER BY dino_name", null);
         cursor.moveToFirst();
         int i=0;
@@ -133,9 +139,10 @@ public class ListFragment extends Fragment {
             cursor.moveToNext();
             i++;
         }
-        name= cursor.getString(1);
-        weight=cursor.getString(2);
-        period=cursor.getString(4);
+        dino_id =cursor.getInt(0);
+        name = cursor.getString(1);
+        weight = cursor.getString(2);
+        period = cursor.getString(4);
         dino_eat = cursor.getString(3);
         switch(dino_eat)
         {
@@ -151,8 +158,9 @@ public class ListFragment extends Fragment {
         }
         img=cursor.getInt(5);
         cursor.close();
-        Dino dino = new Dino(name, weight, period, eat, img);
+        Dino dino = new Dino(name, weight, period, eat, img, dino_id);
         return dino;
     }
+
 
 }
