@@ -3,9 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/const_layout"
-    android:background="@drawable/gradient"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient">
+
+    <TextView
+        android:id="@+id/dino_weight"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="start"
+        android:text="Вага: "
+        android:textColor="#A6000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dino_name" />
+
+    <TextView
+        android:id="@+id/dino_period"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="start"
+        android:text="Період: "
+        android:textColor="#A6000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dino_weight" />
 
     <ImageView
         android:id="@+id/dino_img"
