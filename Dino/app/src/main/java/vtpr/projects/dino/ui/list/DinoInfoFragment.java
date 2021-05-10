@@ -26,6 +26,7 @@ public class DinoInfoFragment extends AppCompatActivity {
         TextView name = findViewById(R.id.dino_name);
         TextView weight = findViewById(R.id.dino_weight);
         TextView period = findViewById(R.id.dino_period);
+        TextView eat = findViewById(R.id.dino_eat);
         ImageView img_dino = (ImageView) findViewById(R.id.dino_img);
         Bundle extras = getIntent().getExtras();
         if(extras!=null)
@@ -40,6 +41,18 @@ public class DinoInfoFragment extends AppCompatActivity {
         name.setText(dino_name);
         weight.setText("Вага: " + dino_weight + " кг");
         period.setText("Період: " + dino_period);
+        switch(dino_eat)
+        {
+            case(1):
+                eat.setText("Харчування: м'ясоїдний");
+                break;
+            case(2):
+                eat.setText("Харчування: рослиноїдний");
+                break;
+            case(3):
+                eat.setText("Харчування: всеядний");
+                break;
+        }
         switch(dino_id) {
             case (1):
                 img_dino.setImageResource(R.drawable.d1);
