@@ -28,17 +28,18 @@ public class ListFragment extends Fragment {
     private DatabaseHelper mDBHelper;
     private SQLiteDatabase mDb;
     private static List<Dino> dinoList = new ArrayList<>();
+    ArrayList<Dino> filteredlist = new ArrayList<>();
     private RecyclerView recyclerView;
     private DinoAdapter dAdapter;
     private DinoAdapter.RecyclerViewClickListener listener;
     private String text;
     public EditText editText;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container,false);
         setOnClickListener();
         recyclerView = (RecyclerView) view.findViewById(R.id.rec_view);
+        dinoList.clear();
         dAdapter = new DinoAdapter(dinoList, listener);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -100,7 +101,7 @@ public class ListFragment extends Fragment {
 
     private void filter (String text)
     {
-        ArrayList<Dino> filteredlist = new ArrayList<>();
+        filteredlist.clear();
         for(Dino item:dinoList)
         {
             if(item.getName().toLowerCase().contains(text.toLowerCase()))

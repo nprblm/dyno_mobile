@@ -10,7 +10,10 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
 
 import vtpr.projects.dino.DatabaseHelper;
 import vtpr.projects.dino.DinoAdapter;
@@ -35,23 +39,27 @@ public class FilterFragment extends Fragment {
     private DatabaseHelper mDBHelper;
     private SQLiteDatabase mDb;
     private static List<Dino> dinoList = new ArrayList<>();
-    private static List<Dino> clearList = new ArrayList<>();
+    ArrayList<Dino> filteredlist = new ArrayList<>();
     private RecyclerView recyclerView;
-    private DinoAdapter dAdapter, clearAdapter;
+    private DinoAdapter dAdapter;
     private DinoAdapter.RecyclerViewClickListener listener;
     private String text_max, text_min;
     private int text_int_min = 0, text_int_max = 1000000;
     private int weight_int;
+    private int eat_int=0;
+    private String period_string="Не обрано";
     public EditText editText_min;
     public EditText editText_max;
+    private String[] data_eat = {"Не обрано","М'ясоїдні", "Рослиноїдні", "Всеядні"};
+    private String[] data_period = {"Не обрано","Крейдовий", "Юрський", "Тріасовий"};
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_2, container,false);
         setOnClickListener();
         recyclerView = (RecyclerView) view.findViewById(R.id.rec_view);
+        dinoList.clear();
         dAdapter = new DinoAdapter(dinoList, listener);
-        clearAdapter = new DinoAdapter(clearList, listener);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -90,15 +98,7 @@ public class FilterFragment extends Fragment {
                     text_min = s.toString();
                     text_int_min = Integer.parseInt(text_min);
                 }
-                if(text_int_min<=text_int_max)
-                {
-                    recyclerView.setAdapter(dAdapter);
-                    filter();
-                }
-                else
-                {
-                    recyclerView.setAdapter(clearAdapter);
-                }
+                filter();
             }
         });
 
@@ -122,15 +122,40 @@ public class FilterFragment extends Fragment {
                     text_max = s.toString();
                     text_int_max = Integer.parseInt(text_max);
                 }
-                if(text_int_max>=text_int_min)
-                {
-                    recyclerView.setAdapter(dAdapter);
-                    filter();
-                }
-                else
-                {
-                    recyclerView.setAdapter(clearAdapter);
-                }
+                filter();
+            }
+        });
+
+        ArrayAdapter<String> adapter_eat = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, data_eat);
+        adapter_eat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner spinner_eat = view.findViewById(R.id.spinner_eat);
+        spinner_eat.setAdapter(adapter_eat);
+        spinner_eat.setSelection(0);
+        spinner_eat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                eat_select(position);
+                filter();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+        ArrayAdapter<String> adapter_period = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, data_period);
+        adapter_period.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner spinner_period = view.findViewById(R.id.spinner_period);
+        spinner_period.setAdapter(adapter_period);
+        spinner_period.setSelection(0);
+        spinner_period.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                period_select(position);
+                filter();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
         return view;
@@ -155,22 +180,29 @@ public class FilterFragment extends Fragment {
         };
     }
 
-    private void filter ()
-    {
-        ArrayList<Dino> filteredlist = new ArrayList<>();
-        for(Dino item:dinoList)
-        {
+    private void filter () {
+        filteredlist.clear();
+        for (Dino item : dinoList) {
             String weight = item.getWeight();
+            Integer eat = item.getEat();
+            String per = item.getPeriod();
             weight_int = Integer.parseInt(weight);
-            if((weight_int<=text_int_max)&&(weight_int>=text_int_min))
+            if(eat_int==0)
             {
+                eat=eat_int;
+            }
+            if(period_string.equals("Не обрано"))
+            {
+                per = period_string.toLowerCase();
+            }
+            if ((weight_int <= text_int_max) && (weight_int >= text_int_min) && (eat == eat_int) && (per.equals(period_string.toLowerCase()))) {
                 filteredlist.add(item);
             }
+            dAdapter.filterlist(filteredlist);
         }
-        dAdapter.filterlist(filteredlist);
     }
 
-    private void prepareDinoData() {
+        private void prepareDinoData() {
 
         int i=0;
         while(i<50) {
@@ -180,45 +212,70 @@ public class FilterFragment extends Fragment {
         dAdapter.notifyDataSetChanged();
     }
 
-    private Dino getInfo(int id)
-    {
-        String name ="";
-        String weight ="";
-        String period ="";
-        String dino_eat="";
-        int eat = 1;
-        int img = 1;
-        int dino_id = 0;
-        Cursor cursor = mDb.rawQuery("SELECT * FROM dino ORDER BY dino_name", null);
-        cursor.moveToFirst();
-        int i=0;
-        while (i<id)
+        private Dino getInfo(int id)
         {
-            cursor.moveToNext();
-            i++;
+            String name ="";
+            String weight ="";
+            String period ="";
+            String dino_eat="";
+            int eat = 1;
+            int img = 1;
+            int dino_id = 0;
+            Cursor cursor = mDb.rawQuery("SELECT * FROM dino ORDER BY dino_name", null);
+            cursor.moveToFirst();
+            int i=0;
+            while (i<id)
+            {
+                cursor.moveToNext();
+                i++;
+            }
+            dino_id =cursor.getInt(0);
+            name = cursor.getString(1);
+            weight = cursor.getString(2);
+            period = cursor.getString(4);
+            dino_eat = cursor.getString(3);
+            switch(dino_eat)
+            {
+                case("м'ясо"):
+                    eat=1 ;
+                    break;
+                case("вег"):
+                    eat=2 ;
+                    break;
+                case("все"):
+                    eat=3 ;
+                    break;
+            }
+            img=cursor.getInt(5);
+            cursor.close();
+            Dino dino = new Dino(name, weight, period, eat, img, dino_id);
+            return dino;
         }
-        dino_id =cursor.getInt(0);
-        name = cursor.getString(1);
-        weight = cursor.getString(2);
-        period = cursor.getString(4);
-        dino_eat = cursor.getString(3);
-        switch(dino_eat)
+
+        private void eat_select(int eat_select)
         {
-            case("м'ясо"):
-                eat=1 ;
-                break;
-            case("вег"):
-                eat=2 ;
-                break;
-            case("все"):
-                eat=3 ;
-                break;
+            eat_int=eat_select;
         }
-        img=cursor.getInt(5);
-        cursor.close();
-        Dino dino = new Dino(name, weight, period, eat, img, dino_id);
-        return dino;
+
+        private void period_select(int period_select)
+        {
+            switch(period_select)
+            {
+                case(0):
+                    period_string="Не обрано";
+                    break;
+                case(1):
+                    period_string="Крейдовий";
+                    break;
+                case(2):
+                    period_string="Юрський";
+                    break;
+                case(3):
+                    period_string="Тріасовий";
+                    break;
+            }
+
+        }
+
+
     }
-
-
-}
