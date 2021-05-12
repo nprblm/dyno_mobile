@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import vtpr.projects.dino.ui.list.Dino;
-import vtpr.projects.dino.ui.list.ListFragment;
 
 public class DinoAdapter extends RecyclerView.Adapter<DinoAdapter.MyViewHolder>  {
 

@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedMap;
 
 import vtpr.projects.dino.DatabaseHelper;
 import vtpr.projects.dino.DinoAdapter;
