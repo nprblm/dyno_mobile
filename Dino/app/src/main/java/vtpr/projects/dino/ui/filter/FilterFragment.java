@@ -43,8 +43,8 @@ public class FilterFragment extends Fragment {
     private DinoAdapter dAdapter;
     private DinoAdapter.RecyclerViewClickListener listener;
     private String text_max, text_min;
-    private int text_int_min = 0, text_int_max = 1000000;
-    private int weight_int;
+    private float text_float_min = 0, text_float_max = 1000000;
+    private Float weight_float;
     private int eat_int=0;
     private String period_string="Не обрано";
     public EditText editText_min;
@@ -90,12 +90,12 @@ public class FilterFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().isEmpty()) {
-                    text_int_min = 0;
+                    text_float_min = 0;
                 }
                 else
                 {
                     text_min = s.toString();
-                    text_int_min = Integer.parseInt(text_min);
+                    text_float_min = Float.parseFloat(text_min);
                 }
                 filter();
             }
@@ -114,12 +114,12 @@ public class FilterFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if(s.toString().isEmpty()) {
-                    text_int_max = 1000000;
+                    text_float_max = 1000000;
                 }
                 else
                 {
                     text_max = s.toString();
-                    text_int_max = Integer.parseInt(text_max);
+                    text_float_max = Float.parseFloat(text_max);
                 }
                 filter();
             }
@@ -185,7 +185,7 @@ public class FilterFragment extends Fragment {
             String weight = item.getWeight();
             Integer eat = item.getEat();
             String per = item.getPeriod();
-            weight_int = Integer.parseInt(weight);
+            weight_float = Float.parseFloat(weight);
             if(eat_int==0)
             {
                 eat=eat_int;
@@ -194,7 +194,7 @@ public class FilterFragment extends Fragment {
             {
                 per = period_string.toLowerCase();
             }
-            if ((weight_int <= text_int_max) && (weight_int >= text_int_min) && (eat == eat_int) && (per.equals(period_string.toLowerCase()))) {
+            if ((weight_float <= text_float_max) && (weight_float >= text_float_min) && (eat == eat_int) && (per.equals(period_string.toLowerCase()))) {
                 filteredlist.add(item);
             }
             dAdapter.filterlist(filteredlist);
