@@ -15,10 +15,10 @@
         <item
             android:id="@+id/nav_filter"
             android:icon="@drawable/ic_dinosaur"
-            android:title="Динозаври" />
+            android:title="Фільтр" />
         <item
             android:id="@+id/nav_info"
             android:icon="@drawable/icon_info"
-            android:title="Інформація" />
+            android:title="Про додаток" />
     </group>
 </menu>
